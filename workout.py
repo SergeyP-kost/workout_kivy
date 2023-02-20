@@ -1,6 +1,9 @@
 from kivy.app import App
 from kivy.clock import Clock
 from kivy.uix.gridlayout import GridLayout
+from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.textinput import TextInput
+from kivy.uix.label import Label
 from kivy.core.window import Window
 from kivy.config import Config
 
@@ -11,49 +14,60 @@ Window.size = (480, 853)
 Config.set('kivy', 'keyboard_mode', 'systemanddock')
 
 
-class Container(GridLayout):
+class VariableContainer:
+    def __init__(self):
+        self.dict_var = {}
+        self.cnt = 0
 
-    def button_num(self):
+    def variable_dict(self):
+        key = 'num'
+        self.dict_var[self.cnt] = {key: '', key + '_change': '', key + '_plan': ''}
+        self.cnt += 1
 
-        num = {
-            'num_1': self.num_1,
-            'num_2': self.num_2,
-            'num_3': self.num_3,
-            'num_4': self.num_4,
-            'num_5': self.num_5,
-        }
 
-        num_change = {
-            'num_1': self.num_1_change,
-            'num_2': self.num_2_change,
-            'num_3': self.num_3_change,
-            'num_4': self.num_4_change,
-            'num_5': self.num_5_change,
-        }
+class Container(GridLayout, VariableContainer):
+    def start_workout(self):
+        while len(self.dict_var) < 10:
+            self.variable_dict()
 
-        num_plan = {
-            'num_1': self.num_1_plan,
-            'num_2': self.num_2_plan,
-            'num_3': self.num_3_plan,
-            'num_4': self.num_4_plan,
-            'num_5': self.num_5_plan,
-        }
-        return [num, num_change, num_plan]
+            layout = BoxLayout(orientation='horizontal', size_hint_y=0.1)
+            text_input_workout = TextInput(multiline=False)
+            text_input_plan = TextInput(multiline=False, input_filter='int', size_hint_x=0.4)
+            label_current = Label(size_hint_x=0.4)
+            text_input_change = TextInput(multiline=False, input_filter='int', size_hint_x=0.4)
+            layout.add_widget(text_input_workout)
+            layout.add_widget(text_input_plan)
+            layout.add_widget(label_current)
+            layout.add_widget(text_input_change)
+            self.gridLayout_workout.add_widget(layout)
+
+    def change_number(self):
+        for key, value in self.dict_var.items():
+            num = self.children[1].children[key].children[0]
+            num_change = self.children[1].children[key].children[1]
+            num_plan = self.children[1].children[key].children[2]
+            for i in value:
+                if i == 'num':
+                    self.dict_var[key][i] = num
+                elif i == 'num_change':
+                    self.dict_var[key][i] = num_change
+                elif i == 'num_plan':
+                    self.dict_var[key][i] = num_plan
 
     def reset(self):
-        fields = self.button_num()
-        for field in fields:
-            for key, value in field.items():
+        self.change_number()
+        for fields in self.dict_var.values():
+            for value in fields.values():
                 value.text = ''
 
     def add_number(self):
-        fields = self.button_num()
-        for key, value in fields[0].items():
-            if value.text and not fields[1][key].text:
-                fields[1][key].text = value.text
-            elif value.text and fields[1][key].text:
-                fields[1][key].text = str(int(fields[1][key].text) + int(value.text))
-            value.text = ''
+        self.change_number()
+        for key, value in self.dict_var.items():
+            if value['num'].text and not value['num_change'].text:
+                value['num_change'].text = value['num'].text
+            elif value['num'].text and value['num_change'].text:
+                value['num_change'].text = str(int(value['num_change'].text) + int(value['num'].text))
+            value['num'].text = ''
 
     def time_workout_start(self):
         Clock.schedule_interval(self.callback, 1)

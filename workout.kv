@@ -1,55 +1,27 @@
 
 
-<TextField@TextInput>
-    font_size: '20sp'
-    multiline: False
-    input_filter: 'int'
-
-<ItemLabel@Label>
-    font_size: '20sp'
-    halign: 'left'
-    valign: 'middle'
-    text_size: self.size
-
-
 <Container>
     rows: 5
 
-    num_1: num_1
-    num_1_change: num_1_change
-    num_1_plan: num_1_plan
-
-    num_2: num_2
-    num_2_change: num_2_change
-    num_2_plan: num_2_plan
-
-    num_3: num_3
-    num_3_change: num_3_change
-    num_3_plan: num_3_plan
-
-    num_4: num_4
-    num_4_change: num_4_change
-    num_4_plan: num_4_plan
-
-    num_5: num_5
-    num_5_change: num_5_change
-    num_5_plan: num_5_plan
+    gridLayout_workout: gridLayout_workout
 
     stopwatch: stopwatch
 
     BoxLayout:
         orientation: 'vertical'
+        size_hint_y: .5
+        padding: [10, 0, 10, 0]
 
         AnchorLayout:
             anchor_y: 'top'
-            size_hint_y: 1
+            size_hint_y: .6
             Label:
                 text: 'Тренировка'
                 font_size: '40sp'
 
         BoxLayout:
-            size_hint_y: .2
-            padding: [10, 0, 10, 0]
+            size_hint_y: .3
+
             Label:
                 id: stopwatch
                 text: '00:00'
@@ -73,92 +45,56 @@
                 on_release:
                     root.time_workout_stop()
 
-    GridLayout:
-        cols: 4
-        size_hint_y: .5
-        padding: [10, 0, 10, 0]
-
         BoxLayout:
-            orientation: 'vertical'
+            orientation: 'horizontal'
+            size_hint_y: .3
 
             Label:
                 text: 'УПРАЖНЕНИЕ'
-            ItemLabel:
-                text: 'Отжимания'
-            ItemLabel:
-                text: 'Приседания'
-            ItemLabel:
-                text: 'Подтягивания'
-            ItemLabel:
-                text: 'Планка'
-            ItemLabel:
-                text: 'Вис'
-
-        BoxLayout:
-            orientation: 'vertical'
-            size_hint_x: .4
-
             Label:
+                size_hint_x: .4
                 text: 'ПЛАН'
-            TextField:
-                id: num_1_plan
-            TextField:
-                id: num_2_plan
-            TextField:
-                id: num_3_plan
-            TextField:
-                id: num_4_plan
-            TextField:
-                id: num_5_plan
-
-        BoxLayout:
-            orientation: 'vertical'
-            size_hint_x: .4
-            font_size: '14sp'
-
             Label:
+                size_hint_x: .4
                 text: 'СДЕЛАНО'
             Label:
-                id: num_1_change
-            Label:
-                id: num_2_change
-            Label:
-                id: num_3_change
-            Label:
-                id: num_4_change
-            Label:
-                id: num_5_change
-
-        BoxLayout:
-            orientation: 'vertical'
-            size_hint_x: .4
-
-            Label:
+                size_hint_x: .4
                 text: 'ПОДХОД'
-            TextField:
-                id: num_1
-            TextField:
-                id: num_2
-            TextField:
-                id: num_3
-            TextField:
-                id: num_4
-            TextField:
-                id: num_5
 
+    GridLayout:
+        id: gridLayout_workout
+        rows: 20
+        padding: [10, 0, 10, 0]
 
-    BoxLayout:
-        size_hint_y: .1
-        padding: 10
+    GridLayout:
+        rows: 2
+        size_hint_y: .2
+        padding: [10, 10, 10, 10]
 
-        Button:
-            text: 'Обновить'
+        ToggleButton:
+            on_state: self.background_color = 0,0,0,1
+            on_state: self.text = ''
+            text: 'Начать'
+            font_size: '20sp'
 
             on_release:
-                root.add_number()
+                root.start_workout()
 
-        Button:
-            text: 'Сброс'
 
-            on_release:
-                root.reset()
+        FloatLayout:
+
+            Button:
+                text: 'Добавить'
+                size_hint: .5, 1
+                pos_hint: {'x': 0, 'y': 0}
+
+                on_release:
+                    root.add_number()
+
+            Button:
+                text: 'Сброс'
+                size_hint: .5, 1
+                pos_hint: {'x':.5, 'y': 0}
+
+                on_release:
+                    root.reset()
