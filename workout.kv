@@ -1,0 +1,164 @@
+
+
+<TextField@TextInput>
+    font_size: '20sp'
+    multiline: False
+    input_filter: 'int'
+
+<ItemLabel@Label>
+    font_size: '20sp'
+    halign: 'left'
+    valign: 'middle'
+    text_size: self.size
+
+
+<Container>
+    rows: 5
+
+    num_1: num_1
+    num_1_change: num_1_change
+    num_1_plan: num_1_plan
+
+    num_2: num_2
+    num_2_change: num_2_change
+    num_2_plan: num_2_plan
+
+    num_3: num_3
+    num_3_change: num_3_change
+    num_3_plan: num_3_plan
+
+    num_4: num_4
+    num_4_change: num_4_change
+    num_4_plan: num_4_plan
+
+    num_5: num_5
+    num_5_change: num_5_change
+    num_5_plan: num_5_plan
+
+    stopwatch: stopwatch
+
+    BoxLayout:
+        orientation: 'vertical'
+
+        AnchorLayout:
+            anchor_y: 'top'
+            size_hint_y: 1
+            Label:
+                text: 'Тренировка'
+                font_size: '40sp'
+
+        BoxLayout:
+            size_hint_y: .2
+            padding: [10, 0, 10, 0]
+            Label:
+                id: stopwatch
+                text: '00:00'
+                font_size: '25sp'
+            Button:
+                size_hint_x: .5
+                text: 'Пуск'
+
+                on_release:
+                    root.time_workout_start()
+            Button:
+                size_hint_x: .5
+                text: 'Пауза'
+
+                on_release:
+                    root.time_workout_pause()
+            Button:
+                size_hint_x: .5
+                text: 'Стоп'
+
+                on_release:
+                    root.time_workout_stop()
+
+    GridLayout:
+        cols: 4
+        size_hint_y: .5
+        padding: [10, 0, 10, 0]
+
+        BoxLayout:
+            orientation: 'vertical'
+
+            Label:
+                text: 'УПРАЖНЕНИЕ'
+            ItemLabel:
+                text: 'Отжимания'
+            ItemLabel:
+                text: 'Приседания'
+            ItemLabel:
+                text: 'Подтягивания'
+            ItemLabel:
+                text: 'Планка'
+            ItemLabel:
+                text: 'Вис'
+
+        BoxLayout:
+            orientation: 'vertical'
+            size_hint_x: .4
+
+            Label:
+                text: 'ПЛАН'
+            TextField:
+                id: num_1_plan
+            TextField:
+                id: num_2_plan
+            TextField:
+                id: num_3_plan
+            TextField:
+                id: num_4_plan
+            TextField:
+                id: num_5_plan
+
+        BoxLayout:
+            orientation: 'vertical'
+            size_hint_x: .4
+            font_size: '14sp'
+
+            Label:
+                text: 'СДЕЛАНО'
+            Label:
+                id: num_1_change
+            Label:
+                id: num_2_change
+            Label:
+                id: num_3_change
+            Label:
+                id: num_4_change
+            Label:
+                id: num_5_change
+
+        BoxLayout:
+            orientation: 'vertical'
+            size_hint_x: .4
+
+            Label:
+                text: 'ПОДХОД'
+            TextField:
+                id: num_1
+            TextField:
+                id: num_2
+            TextField:
+                id: num_3
+            TextField:
+                id: num_4
+            TextField:
+                id: num_5
+
+
+    BoxLayout:
+        size_hint_y: .1
+        padding: 10
+
+        Button:
+            text: 'Обновить'
+
+            on_release:
+                root.add_number()
+
+        Button:
+            text: 'Сброс'
+
+            on_release:
+                root.reset()
