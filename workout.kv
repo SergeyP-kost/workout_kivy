@@ -50,6 +50,9 @@
             size_hint_y: .3
 
             Label:
+                text_size: self.size
+                halign: 'center'
+                valign: 'middle'
                 text: 'УПРАЖНЕНИЕ'
             Label:
                 size_hint_x: .4
@@ -72,8 +75,8 @@
         padding: [10, 10, 10, 10]
 
         ToggleButton:
-            on_state: self.background_color = 0,0,0,1
-            on_state: self.text = ''
+            on_state: self.background_color = 0, 0, 0.1, .8
+            on_state: self.text = 'Вперед к своей цели!'
             text: 'Начать'
             font_size: '20sp'
 

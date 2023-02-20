@@ -6,6 +6,7 @@ from kivy.uix.textinput import TextInput
 from kivy.uix.label import Label
 from kivy.core.window import Window
 from kivy.config import Config
+from kivy.properties import ObjectProperty
 
 
 # Window.size = (720, 1200)
@@ -26,6 +27,10 @@ class VariableContainer:
 
 
 class Container(GridLayout, VariableContainer):
+
+    gridLayout_workout = ObjectProperty()
+    stopwatch = ObjectProperty()
+
     def start_workout(self):
         while len(self.dict_var) < 10:
             self.variable_dict()
@@ -40,6 +45,7 @@ class Container(GridLayout, VariableContainer):
             layout.add_widget(label_current)
             layout.add_widget(text_input_change)
             self.gridLayout_workout.add_widget(layout)
+        self.change_number()
 
     def change_number(self):
         for key, value in self.dict_var.items():
@@ -55,13 +61,11 @@ class Container(GridLayout, VariableContainer):
                     self.dict_var[key][i] = num_plan
 
     def reset(self):
-        self.change_number()
         for fields in self.dict_var.values():
             for value in fields.values():
                 value.text = ''
 
     def add_number(self):
-        self.change_number()
         for key, value in self.dict_var.items():
             if value['num'].text and not value['num_change'].text:
                 value['num_change'].text = value['num'].text
@@ -91,6 +95,7 @@ class WorkoutApp(App):
     icon = 'barbell.png'
 
     def build(self):
+        Window.clearcolor = (0, 0, 0.1, .8)
         return Container()
 
 
